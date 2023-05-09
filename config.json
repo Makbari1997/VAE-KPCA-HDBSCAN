@@ -1,7 +1,7 @@
 {
     "dataset" : "atis",
     "seq_length" : "max",
-    "finetune" : false,
+    "finetune" : true,
     "finetune_epochs" : 60,
     "train_epochs" : 350,
     "batch_size" : 16,
