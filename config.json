@@ -1,0 +1,17 @@
+{
+    "dataset" : "atis",
+    "seq_length" : "max",
+    "finetune" : false,
+    "finetune_epochs" : 60,
+    "train_epochs" : 350,
+    "batch_size" : 16,
+    "vae_learning_rate" : 0.00002,
+    "bert_freeze_layers" : 11,
+    "bert" : "bert-base-uncased",
+    "activation" : "tanh",
+    "vector_dim" : 768,
+    "latent_dim" : 36,
+    "encoder" : [512, 256, 128, 64],
+    "decoder" : [64, 128, 256, 512, 768],
+    "ood_threshold" : 0.2
+}
