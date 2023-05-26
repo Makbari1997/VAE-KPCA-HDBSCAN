@@ -1,5 +1,6 @@
 import os
 import json
+from pathlib import Path
 
 from data_modules.data_utils import *
 from data_modules.DataLoader import DataLoader
@@ -17,7 +18,11 @@ warnings.filterwarnings("ignore")
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 def run(config):
-    
+    path_bert = Path('./artifacts/{}/bert/'.format(config['dataset']))
+    path_vae = Path('./artifacts/{}/vae/'.format(config['dataset']))
+    path_bert.mkdir(parents=True, exist_ok=True)
+    path_vae.mkdir(parents=True, exist_ok=True)
+
     print('Loading data from {}...'.format(os.path.join('data', config['dataset'])))
     dataloader = DataLoader(path=os.path.join('dataset', config['dataset']))
     train_sentences, train_intents = dataloader.train_loader()
@@ -74,7 +79,7 @@ def run(config):
         x_train=train_sentences + dev_sentences, y_train=np.concatenate((train_intents_encoded, dev_intents_encoded), axis=0),
         x_validation=test_sentences, y_validation=test_intents_encoded,
         max_length=max_length, num_labels=len(np.unique(np.array(train_intents))), path=os.path.join('artifacts', config['dataset'], 'bert/'), 
-        train=config['finetune'], first_layers_to_freeze=11, num_epochs=config['finetune_epochs']
+        train=config['finetune'], first_layers_to_freeze=11, num_epochs=config['finetune_epochs'], model_name=config['bert']
     )
     classifier.load_weights(os.path.join('artifacts', config['dataset'], 'bert/'))
     bert.layers[0].set_weights(classifier.layers[0].get_weights())
