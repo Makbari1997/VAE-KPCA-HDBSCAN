@@ -87,7 +87,7 @@ def run(config):
         x_train=train_sentences + dev_sentences, y_train=np.concatenate((train_intents_encoded, dev_intents_encoded), axis=0),
         x_validation=test_sentences, y_validation=test_intents_encoded,
         max_length=max_length, num_labels=len(np.unique(np.array(train_intents))), path=os.path.join('artifacts', config['dataset'], 'bert/'), 
-        train=config['finetune'], first_layers_to_freeze=11, num_epochs=config['finetune_epochs'], model_name=config['bert']
+        train=False, first_layers_to_freeze=11, num_epochs=config['finetune_epochs'], model_name=config['bert']
     )
     classifier.load_weights(os.path.join('artifacts', config['dataset'], 'bert/'))
     bert.layers[0].set_weights(classifier.layers[0].get_weights())
